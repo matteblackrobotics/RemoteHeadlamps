@@ -2,7 +2,10 @@
 // What do all the functions do...
 
 #include "Joystick.h"   // include local library
-#include "Arduino.h"
+#include <Arduino.h>
+
+
+
 
 // Constructor to configure data
 // Class::Constructor
@@ -57,3 +60,4 @@ float Joystick::getY()
   pos = f_normAnalog(pos, volts_5);            // calibrate reading    
   return pos;
 }
+

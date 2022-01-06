@@ -20,4 +20,10 @@ void LED_setup()
  LEDstrip.show(); // Initialize all pixels to 'off'
 }
 
+ void LED_initializing()
+ {
+    LEDstrip.setPixelColor(LED_index, 50, 50, 50); 
+    LEDstrip.show();
+ }
+ 
 #endif

@@ -1,5 +1,9 @@
-#ifndef joySW_h
-#define joySW_h
+#ifndef switch_h
+#define switch_h
+
+#include <Arduino.h>
+
+
 
 int hold_count = 0;
 int hold_thresh1 = 20;
@@ -9,7 +13,7 @@ bool joySW;
 int mode = 0; // [0,1,2] spotlight, mirror, auto
 int mode_last;
 int mode_max = 3;
-bool initialize;
+bool initialize_pos;
 
 bool sw;
 bool sw_last;

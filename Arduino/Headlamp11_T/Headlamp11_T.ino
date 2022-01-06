@@ -1,5 +1,3 @@
-
-
 // Include Libraries
 #include <Arduino.h>
 #include <MBR_analogRead.h>
@@ -7,7 +5,7 @@
 #include <MBR_functions.h>
 #include "utilities.h"
 #include "LED.h"
-#include "joySW.h"
+#include "switch.h"
 #include "Joystick.h"
 #include "mbr_servo.h"
 #include "f_print.h"
@@ -15,13 +13,18 @@
 
 int cycle = 0;
 
+const int joy_x_pin = A6;
+const int joy_y_pin = A7;
+const int joy_sw_pin = 6;
+
+Joystick joy1(joy_x_pin, joy_y_pin, joy_sw_pin);
+
 void setup()
 {
   utilities_setup();
   LED_setup();
   wheel_setup();
   pinMode(6,INPUT_PULLUP);
-  
 }
 
 void loop()
@@ -32,15 +35,19 @@ void loop()
   // read sensors
   // transmit data
   
-  // joySW = joy1.getSW();
-  
-  joySW = !digitalRead(6);
+  // Read switch
+  joySW = joy1.getSW();
+  // joySW = !digitalRead(6);
   
   armState = checkArmState(joySW);
   
-  if(initialize == true)
+  // If new state selected, initlaize position
+  if(initialize_pos == true)
   {
-    
+    degs[0] = moveServo(degs[0], target_x);
+    degs[1] = moveServo(degs[1], target_y);
+    LED_initializing(); 
+    if(target_x == degs[0] && target_y == degs[1]) {initialize_pos = false;}
   }
 
   
@@ -51,7 +58,7 @@ void loop()
     target_y = deg_min;
     brightness = 0;
     mirror_state = false;
-    initialize = true;
+    initialize_pos = true;
   }
   
   if(armState == true)
@@ -80,9 +87,12 @@ void loop()
       brightness = 255;
       mirror_state = false;
     }
-    
   }
   
+  // read joystick
+  joy1.getX();
+  joy1.getY();
+
   cycle++;
   print_int("cycle", cycle);
   print1();

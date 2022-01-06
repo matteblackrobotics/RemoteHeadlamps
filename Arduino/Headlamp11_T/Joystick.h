@@ -7,6 +7,9 @@
 // #include "Joystick.h" refernecing itself?
 #include "Arduino.h"
 
+float joy1_x;
+float joy1_y;
+
 class Joystick
 {
   public:  // Functions you can call from another program

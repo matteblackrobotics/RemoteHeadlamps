@@ -29,7 +29,13 @@ float wheel_rot;
 
 int readWheelPot()
 {
-  wheel_pot_val = analogRead(wheel_pot_pin);
+  // wheel_pot_val = analogRead(wheel_pot_pin) + wheel_pot_cal;
+  // wheel_pot_deg = f_linearMap(pot_volt, 0, Vin, 0, pot_deg_max);
+
+  wheel_pot_volt = f_voltRead(wheel_pot_pin, Vin);
+  wheel_pot_rot = f_linearMap(pot_volt, 0, pot_Vin, 0, pot_rot_max);
+  wheel_rot = -1 * (pot_rot - pot_rot_mid);
+
 }
 
 

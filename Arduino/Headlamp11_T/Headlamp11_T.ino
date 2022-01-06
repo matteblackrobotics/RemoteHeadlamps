@@ -89,9 +89,30 @@ void loop()
     }
   }
   
-  // read joystick
-  joy1.getX();
-  joy1.getY();
+  // Read joystick & add deadband [-1:1]
+  // Joystick for relative positioning
+  joy1_x = -joy1.getX();
+  joy1_y = -joy1.getY();
+  joy1_x = f_deadband(joy1_x, .25);
+  joy1_y = f_deadband(joy1_y, .25);
+
+  // Generate Step 
+  step_x = joy1_x * 30;
+  step_y = joy1_y * 30;
+
+  // Generate Targets
+  target_x = degs[0] + step_x;
+  target_y = degs[1] + step_y;
+
+  // Servo Next Steps
+  degs[0] = moveServo(degs[0], target_x);
+  degs[1] = moveServo(degs[1], target_y);
+
+
+
+
+
+
 
   cycle++;
   print_int("cycle", cycle);

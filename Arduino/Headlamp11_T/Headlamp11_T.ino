@@ -21,6 +21,7 @@ void setup()
   LED_setup();
   wheel_setup();
   pinMode(6,INPUT_PULLUP);
+  
 }
 
 void loop()

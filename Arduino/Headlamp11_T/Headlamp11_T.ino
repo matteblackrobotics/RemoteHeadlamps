@@ -50,7 +50,7 @@ void loop()
     if(target_x == degs[0] && target_y == degs[1]) {initialize_pos = false;}
   }
 
-  
+  // If system unarmed, set parameters, initialize position if neccessary
   if(armState == false)
   {
     mode = 0;
@@ -58,9 +58,11 @@ void loop()
     target_y = deg_min;
     brightness = 0;
     mirror_state = false;
-    initialize_pos = true;
+    if(inInitialPos() == false) {initialize_pos == true;}
+    else{initialize_pos = false;}
   }
   
+  // If system armed, check mode, set parameters, initialize position if neccessary
   if(armState == true)
   {
     mode = checkMode(joySW);
@@ -87,6 +89,8 @@ void loop()
       brightness = 255;
       mirror_state = false;
     }
+    if(inInitialPos() == false) {initialize_pos == true;}
+    else{initialize_pos = false;}
   }
   
   // Read joystick & add deadband [-1:1]

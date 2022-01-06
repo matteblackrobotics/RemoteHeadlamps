@@ -56,4 +56,13 @@ int moveServo(int deg, int target_deg)
   return deg;                              
 }
 
+// are the servos in thier initial position
+bool inInitialPos()
+{
+  bool state;
+  if(degs[0] == target_x && degs[1] == target_y) {state = true;}
+  else {state = false;}
+  return state;
+}
+
 #endif

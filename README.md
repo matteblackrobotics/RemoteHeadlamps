@@ -1,26 +1,33 @@
 # RemoteHeadlamps
-Remote controlled auxiliary servo motor headlamps for car
 
-Headlamps10_T = transmitter code for joystick and wheel potentiometer
+Description
+- Remote headlamp system for car that tracks steering wheel
 
-Headlamps10_R1 = reciever code for 1st headlamp
+Purpose
+- Learning platform for coding, design, and fabrication for real world applications
 
-Headlamps10_R2 = reciever code for 2nd headlamp
+Physical Setup
+- Transmitter inside car w/ arduino, joysitck, swtich, and steering wheel potentiometer
+- Reciever in each lamp system w/ arduino, 2 servo motors, and 12v aux lamp
 
-10 = version number
+Funcitonality
+- System disarmed and in stowed position
+- Long button press to arm system
+- Short button click changes mode
+- Lamps initialize position when modes or arm state changes
+- Spotlight mode: Lamps follow eachother and read joystick data
+- Mirror mode: Lamps mirror eachother and read joystick data
+- Auto mode: Lamps follow eachother and read wheel potentiometer data
 
+Goals
+- System should be clean and modular whith the ability to add more lights
+- Add birghtness adjustment to code
+- Needs to be weatherproof
+- Proper use of .h files and libraries
 
-Remote Headlamps
-Matt Pfeiffer
-22.1.1
+Checklist
+[] incomplete
+[x] complete
 
-States:
-    - Offline
-    - Online
-        Modes:
-            - Spotlight
-            - Mirror
-            - Auto Steering Wheel Tracking
-
-Inializing Position
-Reading sensors
+System in Action
+- @matteblackrobotics

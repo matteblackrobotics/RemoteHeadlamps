@@ -26,8 +26,11 @@ Goals
 - Proper use of .h files and libraries
 
 Checklist
-[] incomplete
-[x] complete
+- CamelCase
+- Watch PID stuff
+- Joystick not a class
+- Gimbal class
+- Initial positioning class Spotlight, Mirror, Auto
 
 System in Action
 - @matteblackrobotics

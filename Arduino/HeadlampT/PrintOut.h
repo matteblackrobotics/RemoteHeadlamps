@@ -47,14 +47,14 @@ void printLn()
   Serial.println(" ");
 }
 
-  void print1()
+void print1()
   {
   printBool("sw", joySW);
   printInt("hold_count", holdCount);
   Serial.print("  arm_" ); Serial.print(armState); Serial.print(" ");
   Serial.print("  mode_" ); Serial.print(mode); Serial.print(" ");
   Serial.print("  mirror_" ); Serial.print(mirrorState); Serial.print(" ");
-  Serial.print("  initial_pos_"); Serial.print(initializing); Serial.print(" ");
+  Serial.print("  initializing_"); Serial.print(initializing); Serial.print(" ");
   Serial.print("  joyX_" ); Serial.print(joyX); Serial.print(" ");  
   Serial.print("  joyY_" ); Serial.print(joyY); Serial.print(" ");  
   Serial.print("  joySW_" ); Serial.print(joySW); Serial.print(" "); 

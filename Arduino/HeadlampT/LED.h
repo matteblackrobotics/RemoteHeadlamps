@@ -42,7 +42,7 @@ ledStrip.setPixelColor(ledIndex, 0, 0, 50);
 ledStrip.show();
 }
 
-void ledPurple()
+void ledLightBlue()
 {
   // LEDOff();
   ledStrip.setPixelColor(ledIndex, 0, 30, 50); 

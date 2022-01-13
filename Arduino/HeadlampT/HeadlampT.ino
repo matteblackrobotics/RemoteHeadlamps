@@ -1,4 +1,4 @@
-// camelCaseUpdate - Branch
+// joyupdate - Branch
 
 // standard libraries
 #include <SPI.h>
@@ -9,7 +9,6 @@
 #include "Arduino.h"
 #include "Functions.h"
 #include "Joystick.h"
-#include "Joystickk.h"
 #include "Utilities.h"
 #include "Wheel.h"
 #include "LED.h"
@@ -24,6 +23,7 @@
 void setup() 
 {
  utilitiesSetup();
+ joystickSetup();
  ledSetup();
  wheelSetup();
  radioSetup();
@@ -34,7 +34,7 @@ void setup()
 // -------------------------------- VOID LOOP ----------------------------- //
 void loop() 
 {
-  joySW = joy.getSW();                       // read joystick button
+  joySW = readJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
 
   // -------------------- initialize position ---------------------- //
@@ -57,7 +57,7 @@ void loop()
     mirrorState = false;
     initializing = true;
     mode = modeMax;
-    ledPurple();
+    ledLightBlue();
   }
 
   // ----------------------------- Online ------------------------------ //
@@ -106,8 +106,8 @@ void loop()
         if(mode == 0 || mode == 1)
         {
           // Read joystick
-          joyX = -joy.getX();  // [-1:1]
-          joyY = -joy.getY();
+          joyX = -readJoyX();  // [-1:1]
+          joyY = -readJoyY();
           
           // Deadband for no motion
           joyX = addDeadband(joyX, .25);
@@ -190,25 +190,4 @@ void loop()
   ledOff();
   print1();
   delay(0);
-}
-
-
-// --------------------------- END VOID LOOP ------------------------ //
-// --------------------------- END VOID LOOP ------------------------ //
-
-
-int moveServo(int targetDeg, int deg)
-{
-  if(targetDeg > deg)                          // move positive
-  {
-    if(targetDeg - deg >= 10) {deg = deg + stepMax;}  // big step
-    else{deg = deg + stepMin;}                          // small step
-  }
-
-  if(targetDeg < deg)                          // move negative
-  {
-    if(deg - targetDeg >= 10) {deg = deg - stepMax;}  // big step
-    else{deg = deg - stepMin;}                            // small step
-  }
-  return deg;                                   // updated servo degrees
 }

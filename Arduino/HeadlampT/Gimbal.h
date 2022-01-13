@@ -23,4 +23,23 @@ int stepMax = 5;
 int stepMin = 1; 
 int stepThresh1 = 10;
 
+
+
+int moveServo(int targetDeg, int deg)
+{
+  if(targetDeg > deg)                          // move positive
+  {
+    if(targetDeg - deg >= 10) {deg = deg + stepMax;}  // big step
+    else{deg = deg + stepMin;}                          // small step
+  }
+
+  if(targetDeg < deg)                          // move negative
+  {
+    if(deg - targetDeg >= 10) {deg = deg - stepMax;}  // big step
+    else{deg = deg - stepMin;}                            // small step
+  }
+  return deg;                                   // updated servo degrees
+}
+
+
 #endif

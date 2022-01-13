@@ -108,7 +108,7 @@ float findHeading(float x, float y)
   return degree; 
 }
 
-
+/*
 
 int stepServo(int target_deg, int deg)
 {
@@ -133,3 +133,7 @@ int stepServo(int target_deg, int deg)
   }
   return deg;                                   // updated servo degrees
 }
+
+*/
+
+

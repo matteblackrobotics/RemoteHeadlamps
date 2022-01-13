@@ -11,10 +11,10 @@ const byte address_RT[6] = "20001";
 // Transmitter to Reciever
 struct package_t // create a group of variables called a structure named "package"
   {
-    float servo_x; 
-    float servo_y; 
-    bool joy_sw;
-    float brightness;
+    float servoX; 
+    float servoY; 
+    bool joySW;
+    float lampBrightness;
   }; 
   
 typedef struct package_t Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
@@ -31,12 +31,12 @@ typedef struct package_r Package_r;
 Package_r data_r;
 
 
-void radio_setup()
+void radioSetup()
 {
   myRadio.begin();  
   myRadio.setChannel(115);              // 125 Possible channels, each channel can have up to 6 addresses. 
   myRadio.setPALevel(RF24_PA_MAX);
-  myRadio.setDataRate( RF24_250KBPS ); 
+  myRadio.setDataRate(RF24_250KBPS ); 
   // myRadio.openReadingPipe(0, address_RT); // Not recieving data
   myRadio.stopListening();
   delay(1000);

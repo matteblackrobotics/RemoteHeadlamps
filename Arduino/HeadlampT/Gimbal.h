@@ -3,24 +3,24 @@
 
 
 // ------------------------------------------- Servos ------------------------------------------ //
-int servo_x_deg;                // individual servo position
-int servo_y_deg; 
+int servoXdeg;                // individual servo position
+int servoYdeg; 
 
-int deg_max = 180;    // min bound for servo position due to power issues??    // desired max
-int deg_min = 0;    // min bound for servo position due to power issues??     // desired min
-int deg_mid = 180/2;  // correct mid position for servo
+int degMax = 180;    // min bound for servo position due to power issues??    // desired max
+int degMin = 0;    // min bound for servo position due to power issues??     // desired min
+int degMid = 180/2;  // correct mid position for servo
 
-int degs[4] = {deg_min, deg_max, deg_min, deg_max};      // servo degree array {x1, y1, x2, y2} initial position
-int size_degs = sizeof(degs)/sizeof(degs[0]);           // size of degree array
+int degs[4] = {degMin, degMax, degMin, degMax};      // servo degree array {x1, y1, x2, y2} initial position
+int sizeDegs = sizeof(degs)/sizeof(degs[0]);           // size of degree array
 int mech0s[4] = {0, 0, 0, 0};                           // mech 0 (deg)
 int steps[2] = {0, 0};                                   // step x, y
 
-int target_x; 
-int target_y;
-int step_x; 
-int step_y;
-int step_max = 5;
-int step_min = 1; 
-int step_thresh1 = 10;
+int targetX; 
+int targetY;
+int stepX; 
+int stepY;
+int stepMax = 5;
+int stepMin = 1; 
+int stepThresh1 = 10;
 
 #endif

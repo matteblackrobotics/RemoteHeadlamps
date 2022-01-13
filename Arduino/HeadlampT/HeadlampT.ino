@@ -1,3 +1,5 @@
+// camelCaseUpdate - Branch
+
 // standard libraries
 #include <SPI.h>
 #include <Adafruit_NeoPixel.h>
@@ -21,10 +23,10 @@
 // --------------------------- VOID SETUP -------------------- //
 void setup() 
 {
- utilities_setup();
- LED_setup();
- wheel_setup();
- radio_setup();
+ utilitiesSetup();
+ ledSetup();
+ wheelSetup();
+ radioSetup();
 }
 
 
@@ -32,120 +34,120 @@ void setup()
 // -------------------------------- VOID LOOP ----------------------------- //
 void loop() 
 {
-  joy1_sw = joy1.getSW();                       // read joystick button
-  arm_state = checkArmState(joy1_sw);           // long button press?
+  joySW = joy.getSW();                       // read joystick button
+  armState = checkArmState(joySW);           // long button press?
 
   // -------------------- initialize position ---------------------- //
   // If new state is selected
-  if(initial_pos == true)
+  if(initializing == true)
   {
-    degs[0] = f_moveServo(target_x, degs[0]);
-    degs[1] = f_moveServo(target_y, degs[1]);
-    LEDYellow();
-    if(target_x == degs[0] && target_y == degs[1]) {initial_pos = false;} 
+    degs[0] = moveServo(targetX, degs[0]);
+    degs[1] = moveServo(targetY, degs[1]);
+    ledYellow();
+    if(targetX == degs[0] && targetY == degs[1]) {initializing = false;} 
   }
 
     
   // ---------------------------- Offline ---------------------------------  //
-  if(arm_state == 0)    
+  if(armState == 0)    
   {
-    target_x = deg_min;
-    target_y = deg_max;
-    lamp_brightness = 0;
-    mirror_state = false;
-    initial_pos = true;
-    mode = mode_max;
-    LEDPurple();
+    targetX = degMin;
+    targetY = degMax;
+    lampBrightness = 0;
+    mirrorState = false;
+    initializing = true;
+    mode = modeMax;
+    ledPurple();
   }
 
   // ----------------------------- Online ------------------------------ //
-  if(arm_state == 1)
+  if(armState == 1)
   {
-    mode = checkMode(joy1_sw, joy1_sw_last); 
-    joy1_sw_last = joy1_sw;
+    mode = checkMode(joySW, joySWLast); 
+    joySWLast = joySW;
         
     if(mode == 0) // Spotlight          
     {
-      target_x = deg_mid;
-      target_y = deg_mid;
-      lamp_brightness = 255;
-      mirror_state = false; 
+      targetX = degMid;
+      targetY = degMid;
+      lampBrightness = 255;
+      mirrorState = false; 
     }
     
     if(mode == 1) // Mirror         
     {
-      target_x = 40;
-      target_y = 120;
-      lamp_brightness = 255;
-      mirror_state = true;
+      targetX = 40;
+      targetY = 120;
+      lampBrightness = 255;
+      mirrorState = true;
     }
 
     if(mode == 2) // Auto         
     {
-      target_x = deg_mid;
-      target_y = deg_mid;
-      lamp_brightness = 255;
-      mirror_state = false;
+      targetX = degMid;
+      targetY = degMid;
+      lampBrightness = 255;
+      mirrorState = false;
     }
 
-    if(initial_pos == false)
+    if(initializing == false)
     {
     // -------------------- Joysitck Modes ---------------------- //
         if(mode == 0) // Spotlight
         {
-          LEDRed();
+          ledRed();
         }
         
         if(mode == 1) // mirror state
         {
-          LEDGreen();
+          ledGreen();
         }    
         
         if(mode == 0 || mode == 1)
         {
           // Read joystick
-          joy1_x = -joy1.getX();  // [-1:1]
-          joy1_y = -joy1.getY();
+          joyX = -joy.getX();  // [-1:1]
+          joyY = -joy.getY();
           
           // Deadband for no motion
-          joy1_x = f_deadband(joy1_x, .25);
-          joy1_y = f_deadband(joy1_y, .25);
+          joyX = addDeadband(joyX, .25);
+          joyY = addDeadband(joyY, .25);
       
           // calculate next step size
-          step_x = joy1_x * 30.0;  // max joystick = 5 steps
-          step_y = joy1_y * 30.0;
+          stepX = joyX * 30.0;  // max joystick = 5 steps
+          stepY = joyY * 30.0;
 
           // new target
-          target_x = degs[0] + step_x;
-          target_y = degs[1] + step_y;
+          targetX = degs[0] + stepX;
+          targetY = degs[1] + stepY;
 
           // move servo to next step
-          degs[0] = f_moveServo(target_x, degs[0]);
-          degs[1] = f_moveServo(target_y, degs[1]);
+          degs[0] = moveServo(targetX, degs[0]);
+          degs[1] = moveServo(targetY, degs[1]);
         }
       
  
          // ------------------- Auto Mode -------------------- //
         if(mode == 2)
         {
-          mirror_state = false;
-          wheel_rot = readWheelRot() - wheel_cal;         // wheel position with calibration 
-          lamp_pos = (wheel_rot/wheel_rot_max) * 90.0;      // [-90:90] lamp position from forward 
-          target_x = lamp_pos + deg_mid;                  // abosolute positioning from 90
-          degs[0] = f_moveServo(target_x, degs[0]);
+          mirrorState = false;
+          wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
+          lampPos = (wheelRot/wheelRotMax) * 90.0;      // [-90:90] lamp position from forward 
+          targetX = lampPos + degMid;                  // abosolute positioning from 90
+          degs[0] = moveServo(targetX, degs[0]);
           
-          LEDBlue();
-          print_float("wheel_cal", wheel_cal);  
-          print_float("wheel_rot", wheel_rot);    
-          print_float("lamp_pos", wheel_rot);
-          print_float("target_x", target_x);
+          ledBlue();
+          printFloat("wheelCal", wheelCal);  
+          printFloat("wheelRot", wheelRot);    
+          printFloat("lampPos", wheelRot);
+          printFloat("targetX", targetX);
         }
       } 
     } // end Online
     
   
   // --------------------- Data Prep ---------------------------// 
-  if(mirror_state == true)       // X Lamps Mirror
+  if(mirrorState == true)       // X Lamps Mirror
   {
     int a = 90 - degs[0];
     degs[2] = 90 + a;
@@ -155,13 +157,13 @@ void loop()
 
 
   // Bound servo degree
-  for(int i=0; i<size_degs; i++)
+  for(int i=0; i<sizeDegs; i++)
   {
-    degs[i] = f_bound(degs[i], deg_min, deg_max);
+    degs[i] = bound(degs[i], degMin, degMax);
   }
   
   // Add mechanical 0s
- for(int i=0; i<size_degs; i++)
+ for(int i=0; i<sizeDegs; i++)
   {
     degs[i] = degs[i] + mech0s[i];
   }
@@ -170,22 +172,22 @@ void loop()
   // ---------- populate & transmit data packet ------- //
   // send servo data, pot data, switch data
   // transmit to both
-  data_t.joy_sw = joy1_sw;          
-  data_t.brightness = lamp_brightness;
+  data_t.joySW = joySW;          
+  data_t.lampBrightness = lampBrightness;
 
   // transmit to lamp 1
-  data_t.servo_x = degs[0];   // servo_x1_degree
-  data_t.servo_y = degs[1];   // servo__y1_degree
+  data_t.servoX = degs[0];   // servo_x1_degree
+  data_t.servoY = degs[1];   // servo__y1_degree
   myRadio.openWritingPipe(address1_TR);   // Lamp 1
   myRadio.write(&data_t, sizeof(data_t));
 
   // transmit to lamp 2
-  data_t.servo_x = degs[2];   // servo_x2_degree
-  data_t.servo_y = degs[3];   // servo_y2_degree
+  data_t.servoX = degs[2];   // servo_x2_degree
+  data_t.servoY = degs[3];   // servo_y2_degree
   myRadio.openWritingPipe(address2_TR);   // Lamp 2
   myRadio.write(&data_t, sizeof(data_t));
 
-  LEDOff();
+  ledOff();
   print1();
   delay(0);
 }
@@ -195,18 +197,18 @@ void loop()
 // --------------------------- END VOID LOOP ------------------------ //
 
 
-int f_moveServo(int target_deg, int deg)
+int moveServo(int targetDeg, int deg)
 {
-  if(target_deg > deg)                          // move positive
+  if(targetDeg > deg)                          // move positive
   {
-    if(target_deg - deg >= 10) {deg = deg + step_max;}  // big step
-    else{deg = deg + step_min;}                          // small step
+    if(targetDeg - deg >= 10) {deg = deg + stepMax;}  // big step
+    else{deg = deg + stepMin;}                          // small step
   }
 
-  if(target_deg < deg)                          // move negative
+  if(targetDeg < deg)                          // move negative
   {
-    if(deg - target_deg >= 10) {deg = deg - step_max;}  // big step
-    else{deg = deg - step_min;}                            // small step
+    if(deg - targetDeg >= 10) {deg = deg - stepMax;}  // big step
+    else{deg = deg - stepMin;}                            // small step
   }
   return deg;                                   // updated servo degrees
 }

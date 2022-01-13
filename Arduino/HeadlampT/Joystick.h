@@ -27,7 +27,7 @@ class Joystick
     int _pinX;
     int _pinY;
     int _pinSW;
-    int Vin = 5000;               // mV input power
+    int vIn = 5000;               // mV input power
     float cal;                    // joystick calibration
 };
 #endif

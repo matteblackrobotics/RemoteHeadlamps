@@ -4,7 +4,7 @@
 float Pi = 3.14159265359;
 
 // ------------- Bound ---------------- //
-float f_bound(float x, int x_min, int x_max)
+float bound(float x, int x_min, int x_max)
 {
   if(x > x_max) {x = x_max;}
   if(x < x_min) {x = x_min;}
@@ -12,7 +12,7 @@ float f_bound(float x, int x_min, int x_max)
 }
 
 // --------- linearMap --------- //
-float f_linearMap(float x, float x1, float x2, float y1, float y2)
+float linearMap(float x, float x1, float x2, float y1, float y2)
 {
   float m = (y2 - y1)/(x2-x1);
   float b = y1 - m*x1;
@@ -21,7 +21,7 @@ float f_linearMap(float x, float x1, float x2, float y1, float y2)
 }
 
 // ------------- cubicMap -------- //
-float f_cubicMap(float x, float x1, float y1, float xoff, float yoff)
+float cubicMap(float x, float x1, float y1, float xoff, float yoff)
 {
   float a = (y1-yoff)/pow(x1-xoff,3);
   float y = a*(pow(x-xoff,3) + yoff);
@@ -29,7 +29,7 @@ float f_cubicMap(float x, float x1, float y1, float xoff, float yoff)
 }
 
 // ---------- deadband -------- //
-float f_deadband(float x, float x_dead)
+float addDeadband(float x, float x_dead)
 {
  float y; // output
  float x_min = -1.0;
@@ -38,14 +38,14 @@ float f_deadband(float x, float x_dead)
  float y_max = 1.0;
  
  // float x_dead = .25; // dead in positive direction
- if(x < -x_dead) {y = f_linearMap(x, x_min, -x_dead, y_min, 0);}         // segment 1
- else if(x > x_dead) {y = f_linearMap(x, x_dead, x_max, 0, y_max);}      // segment 2
+ if(x < -x_dead) {y = linearMap(x, x_min, -x_dead, y_min, 0);}         // segment 1
+ else if(x > x_dead) {y = linearMap(x, x_dead, x_max, 0, y_max);}      // segment 2
  else{y = 0;}                                                           // segment 0
  return y;
 }
 
 // ------------- normalize analog in --------- //
-float f_normAnalogIn(float analogIn)
+float normAnalogIn(float analogIn)
 {
   analogIn = analogIn / 1023.0;                // convert to [0.0:1.0]
   analogIn = analogIn - .5;                     // centers posiiton 
@@ -53,14 +53,14 @@ float f_normAnalogIn(float analogIn)
   return analogIn;
 }
 
-float f_voltRead(const int pin, float Vin)
+float voltRead(const int pin, float Vin)
 {
   float voltage = analogRead(pin) * (Vin/1023);
   return voltage;
 }
 
 // ---------------------- findMin Function ------------------ //
-int f_min(int a, int b, int c, int d)
+int findMin(int a, int b, int c, int d)
 {
   int array1[] = {a, b, c, d};
   int bytes_int = 2;
@@ -76,7 +76,7 @@ int f_min(int a, int b, int c, int d)
 
 
 
-float f_hypotenuse(float x, float y)
+float findHypotenuse(float x, float y)
 {
   float a = sqrt(pow(x,2) + pow(y,2));
   return a;
@@ -97,7 +97,7 @@ float f_toDeg(float rad)
 // -------------- Joystick Heading ------------ //
 // Forward = 0 degrees
 // x = [-1.0:1.0], y = [-1.0:1.0]
-float f_heading(float x, float y) 
+float findHeading(float x, float y) 
 {
   float rad = atan(x/y);
   float degree = f_toDeg(rad);
@@ -110,7 +110,7 @@ float f_heading(float x, float y)
 
 
 
-int f_stepServo(int target_deg, int deg)
+int stepServo(int target_deg, int deg)
 {
   int step_min = 0;
   int step_max = 5;
@@ -118,7 +118,7 @@ int f_stepServo(int target_deg, int deg)
   int delta_deg = target_deg - deg;
   int step_size;                        // keeps in integers
 
-  if(delta_deg < delta_thresh) {step_size = f_linearMap(delta_deg, 0, delta_thresh, step_min, step_max);}
+  if(delta_deg < delta_thresh) {step_size = linearMap(delta_deg, 0, delta_thresh, step_min, step_max);}
   
   if(target_deg > deg)                          // move positive
   {

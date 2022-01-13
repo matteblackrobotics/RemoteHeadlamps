@@ -3,78 +3,78 @@
 
 
 #include <Adafruit_NeoPixel.h>
-#define led_pin 2
-#define num_leds 1
+#define ledPin 2
+#define numLeds 1
 
-int LED_index = 0;
+int ledIndex = 0;
 int R; // [0:255]
 int G;
 int B;
 
 // int brightness;
-Adafruit_NeoPixel LEDstrip(num_leds, led_pin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel ledStrip(numLeds, ledPin, NEO_GRB + NEO_KHZ800);
 
 
-void LEDOff()
+void ledOff()
 {
-LEDstrip.setPixelColor(LED_index, 0, 0, 0);
-LEDstrip.show();
+ledStrip.setPixelColor(ledIndex, 0, 0, 0);
+ledStrip.show();
 }
 
-void LEDRed()
+void ledRed()
 {
-LEDOff();
-LEDstrip.setPixelColor(LED_index, 50, 0, 0); 
-LEDstrip.show();
+ledOff();
+ledStrip.setPixelColor(ledIndex, 50, 0, 0); 
+ledStrip.show();
 }
 
-void LEDGreen()
+void ledGreen()
 {
-LEDOff();
-LEDstrip.setPixelColor(LED_index, 0, 50, 0); 
-LEDstrip.show();
+ledOff();
+ledStrip.setPixelColor(ledIndex, 0, 50, 0); 
+ledStrip.show();
 }
 
-void LEDBlue()
+void ledBlue()
 {
-LEDOff();
-LEDstrip.setPixelColor(LED_index, 0, 0, 50); 
-LEDstrip.show();
+ledOff();
+ledStrip.setPixelColor(ledIndex, 0, 0, 50); 
+ledStrip.show();
 }
 
-void LEDPurple()
+void ledPurple()
 {
   // LEDOff();
-  LEDstrip.setPixelColor(LED_index, 0, 30, 50); 
-  LEDstrip.show();
+  ledStrip.setPixelColor(ledIndex, 0, 30, 50); 
+  ledStrip.show();
 }
 
-void LEDWhite()
+void ledWhite()
 {
-LEDOff();
-LEDstrip.setPixelColor(LED_index, 50, 50, 50); 
-LEDstrip.show();
+ledOff();
+ledStrip.setPixelColor(ledIndex, 50, 50, 50); 
+ledStrip.show();
 }
 
-void LEDBrightYellow()
+void ledBrightYellow()
 {
-LEDOff();
-LEDstrip.setPixelColor(LED_index, 200, 200, 0); 
-LEDstrip.show();
+ledOff();
+ledStrip.setPixelColor(ledIndex, 200, 200, 0); 
+ledStrip.show();
 }
 
-void LEDYellow()
+void ledYellow()
 {
-  LEDOff();
-  LEDstrip.setPixelColor(LED_index, 50, 50, 0);
-  LEDstrip.show();
+  ledOff();
+  ledStrip.setPixelColor(ledIndex, 50, 50, 0);
+  ledStrip.show();
 }
 
-void LED_setup()
+void ledSetup()
 {
- LEDstrip.begin();
- LEDstrip.setBrightness(100); //adjust brightness here
- LEDstrip.show(); // Initialize all pixels to 'off'
- LEDRed();
+ ledStrip.begin();
+ ledStrip.setBrightness(100); //adjust brightness here
+ ledStrip.show(); // Initialize all pixels to 'off'
+ ledRed();
 }
 #endif

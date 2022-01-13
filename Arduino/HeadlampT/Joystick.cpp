@@ -17,13 +17,13 @@ Joystick::Joystick(int pinX, int pinY, int pinSW)
   _pinSW = pinSW; 
 }
 
-float volts_5 = 5000.0;               // mV input power
+float volts5 = 5000.0;               // mV input power
 float cal = 0;                        // [mV] joystick calibration
 
-float f_normAnalog(float analogIn, float Vin)
+float f_normAnalog(float analogIn, float vIn)
 {
-  analogIn = analogIn * (Vin/1023.0);           // convert to mV
-  analogIn = analogIn/Vin;                      // convert to unit
+  analogIn = analogIn * (vIn/1023.0);           // convert to mV
+  analogIn = analogIn/vIn;                      // convert to unit
   analogIn = analogIn + cal;                    // add calibration
   analogIn = analogIn - .5;                     // centers posiiton 
   analogIn = analogIn * 2;                      // range of 2 from [-1,1]     
@@ -40,20 +40,20 @@ bool Joystick::getSW()
 float Joystick::getPos(int pin)
 {
   float pos = analogRead(pin);                  // read raw data
-  pos = f_normAnalog(pos, volts_5);             // range of 2 from [-1,1]     
+  pos = f_normAnalog(pos, volts5);             // range of 2 from [-1,1]     
   return pos;
 }
 
 float Joystick::getX()
 {
   float pos = analogRead(_pinX);                // read raw data
-  pos = f_normAnalog(pos, volts_5);            // calibrate reading    
+  pos = f_normAnalog(pos, volts5);            // calibrate reading    
   return pos;
 }
 
 float Joystick::getY()
 {
   float pos = analogRead(_pinY);                // read raw data
-  pos = f_normAnalog(pos, volts_5);            // calibrate reading    
+  pos = f_normAnalog(pos, volts5);            // calibrate reading    
   return pos;
 }

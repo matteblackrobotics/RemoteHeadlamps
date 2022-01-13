@@ -1,7 +1,7 @@
 // joyupdate - Branch
 
 // standard libraries
-#include <SPI.h>
+// #include <SPI.h>
 #include <Adafruit_NeoPixel.h>
 #include "RF24.h"
 

@@ -1,6 +1,7 @@
 #ifndef Utilities_h
 #define Utilities_h
 
+// serialport: /dev/cu.usbserial-14320
 
 String fileName = " ------------------ Headlamp ------------------";
 String author = " Matt Pfeiffer   Jan, 2022 ";

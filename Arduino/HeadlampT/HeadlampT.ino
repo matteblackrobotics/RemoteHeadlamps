@@ -147,47 +147,35 @@ void loop()
     
   
   // --------------------- Data Prep ---------------------------// 
-  if(mirrorState == true)       // X Lamps Mirror
-  {
-    int a = 90 - degs[0];
-    degs[2] = 90 + a;
-  }
-  else {degs[2] = degs[0];}      // X Lamps Follow
-  degs[3] = degs[1];             // Y Lamps Follow
+  if(mirrorState == true) {degs[2] = 180 - degs[0];}  // X Lamps Mirror
+  else {degs[2] = degs[0];}                           // X Lamps Follow
+  degs[3] = degs[1];                                  // Y Lamps Follow
 
-
-  // Bound servo degree
+  // Add mech0s and Bound servo degree
   for(int i=0; i<sizeDegs; i++)
   {
     degs[i] = bound(degs[i], degMin, degMax);
-  }
-  
-  // Add mechanical 0s
- for(int i=0; i<sizeDegs; i++)
-  {
     degs[i] = degs[i] + mech0s[i];
   }
   
   
   // ---------- populate & transmit data packet ------- //
-  // send servo data, pot data, switch data
-  // transmit to both
-  data_t.joySW = joySW;          
-  data_t.lampBrightness = lampBrightness;
+  // transmit to both         
+  dataT.lampBrightness = lampBrightness;
 
   // transmit to lamp 1
-  data_t.servoX = degs[0];   // servo_x1_degree
-  data_t.servoY = degs[1];   // servo__y1_degree
-  myRadio.openWritingPipe(address1_TR);   // Lamp 1
-  myRadio.write(&data_t, sizeof(data_t));
+  dataT.servoX = degs[0];   // servo_x1_degree
+  dataT.servoY = degs[1];   // servo__y1_degree
+  myRadio.openWritingPipe(addressTR1);   // Lamp 1
+  myRadio.write(&dataT, sizeof(dataT));
 
   // transmit to lamp 2
-  data_t.servoX = degs[2];   // servo_x2_degree
-  data_t.servoY = degs[3];   // servo_y2_degree
-  myRadio.openWritingPipe(address2_TR);   // Lamp 2
-  myRadio.write(&data_t, sizeof(data_t));
+  dataT.servoX = degs[2];   // servo_x2_degree
+  dataT.servoY = degs[3];   // servo_y2_degree
+  myRadio.openWritingPipe(addressTR2);   // Lamp 2
+  myRadio.write(&dataT, sizeof(dataT));
 
   ledOff();
-  print1();
+  // print1();
   delay(0);
 }

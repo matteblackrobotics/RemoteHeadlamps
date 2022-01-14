@@ -3,40 +3,41 @@
 
 // ------------------------------------------ nRF24L01 ------------------------------------ ------- //
 RF24 myRadio (7, 8);  // CE, CSN 
-const byte address1_TR[6] = "10001";  // Lamp 1 array of bits Transmitter to Reciever
-const byte address2_TR[6] = "10002";  // Lamp 2
-const byte address_RT[6] = "20001";   
+const byte addressTR1[6] = "10001";  // Lamp 1 array of bits Transmitter to Reciever
+const byte addressTR2[6] = "10002";  // Lamp 2
+const byte addressRT1[6] = "20001";  // reciever to transmitter 1
+const byte addressRT2[6] = "20002";  // reciever to transmitter 2
 
 // -------------- data packages ------------- //
 // Transmitter to Reciever
-struct package_t // create a group of variables called a structure named "package"
+struct packageT // creates data structure packageT that consists of a group of variables of different types
   {
     float servoX; 
     float servoY; 
-    bool joySW;
     float lampBrightness;
   }; 
   
-typedef struct package_t Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
-Package_t data_t;  // make "data" a struct type variable with the format of "Package"
+// typedef struct packageT Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
+// Package_t data_t;  // make "data" a struct type variable with the format of "Package"
+
+packageT dataT;
 
 // Reciever to Transmitter
-struct package_r
+struct packageR
   {
-    float volt_batt; 
+    float battVolt; 
     unsigned long recieveTime; 
     int count;
   }; 
-typedef struct package_r Package_r;
-Package_r data_r;
 
+packageR dataR;
 
 void radioSetup()
 {
   myRadio.begin();  
   myRadio.setChannel(115);              // 125 Possible channels, each channel can have up to 6 addresses. 
   myRadio.setPALevel(RF24_PA_MAX);
-  myRadio.setDataRate(RF24_250KBPS ); 
+  myRadio.setDataRate(RF24_250KBPS); 
   // myRadio.openReadingPipe(0, address_RT); // Not recieving data
   myRadio.stopListening();
   delay(1000);

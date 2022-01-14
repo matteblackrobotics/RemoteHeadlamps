@@ -14,7 +14,7 @@ const byte address_RT[6] = "20001";
 
 // -------------- data packages ------------- //
 // Transmitter to Reciever
-struct package_t // create a group of variables called a structure named "package"
+struct packageT // create a group of variables called a structure named "package"
   {
     float servo_x; 
     float servo_y; 
@@ -22,7 +22,7 @@ struct package_t // create a group of variables called a structure named "packag
     float brightness;
   }; 
   
-typedef struct package_t Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
+typedef struct packageT Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
 Package_t data_t;  // make "data" a struct type variable with the format of "Package"
 
 // Reciever to Transmitter

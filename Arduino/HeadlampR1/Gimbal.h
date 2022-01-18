@@ -37,7 +37,7 @@ const int yLimitMin = 0;                        // minimum mechanical position b
 const int yShift = yBoundMax - yInputMax;       // shifting the angle plane
 float yCal;                                      // calibrated servo position       
 
-void setupGimbal()
+void gimbalSetup()
 {
     servoX.attach(xServoPin);
     servoY.attach(yServoPin);

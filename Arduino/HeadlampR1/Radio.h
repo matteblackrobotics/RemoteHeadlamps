@@ -32,7 +32,7 @@ typedef struct packageR PackageR;
 PackageR dataR;
 
 
-void setupRadio()
+void radioSetup()
 {
   myRadio.begin(); 
   myRadio.setChannel(115);                     // communication channel

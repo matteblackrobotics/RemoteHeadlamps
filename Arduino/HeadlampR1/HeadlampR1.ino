@@ -19,10 +19,10 @@ int lampBrightness = 0;
 // ------------------ VOID SETUP -------------- //
 void setup() 
 { 
-  setupUtilities();
-  setupGimbal();
-  pinMode(lampPin, OUTPUT);
-  setupRadio();  
+  utilitiesSetup();
+  gimbalSetup();
+  radioSetup(); 
+  pinMode(lampPin, OUTPUT); 
 }
 
 
@@ -30,7 +30,6 @@ void setup()
 void loop() 
 {
   myRadio.startListening();
-  // -------- read transmission ------- //
   if (myRadio.available())
   {
     while(myRadio.available())

@@ -5,7 +5,7 @@ String FileName = "HeadlampR1";
 const int baud1 = 9600;
 const long baud3 = 115200;
 
-void setupUtilities()
+void utilitiesSetup()
 {
     Serial.begin(baud3); delay(200);
     Serial.println(" "); 

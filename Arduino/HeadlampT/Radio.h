@@ -37,6 +37,12 @@ struct packageR
 packageR dataR;
 
 
+// modify data to prepare to send
+// @param degs[0] (xDeg lamp 1)
+// @param degs[1] (yDeg lamp 1)
+// @param mirrorState (mirror lamps or not)
+// @return degs[2] (xDeg lamp 2)
+// @return degs[3] (yDeg lamp 2)
 void dataPrep()
 {
   if(mirrorState == true) {degs[2] = 180 - degs[0];}  // X Lamps Mirror
@@ -48,9 +54,15 @@ void dataPrep()
   {
     degs[i] = bound(degs[i], degMin, degMax);
   }
-
 }
 
+
+// assign data into proper transmission packet
+// @param lampBrightness
+// @param joySW
+// @param degs[] (all servo degrees)
+// addressTR1 (address transmitter to reciever 1)
+// addressTR2 (address trasmitter to reciever 2)
 void dataTransmit()
 {
   // ---------- populate & transmit data packet ------- //

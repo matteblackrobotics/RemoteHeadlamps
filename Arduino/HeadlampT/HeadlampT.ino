@@ -47,7 +47,7 @@ void loop()
     delay(10);
   }
 
-  joySW = readJoySW();                       // read joystick button
+  joySW = checkJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
 
   // -------------------- initialize position ---------------------- //
@@ -57,7 +57,6 @@ void loop()
     initializeState();
   }
 
-    
   // ---------------------------- Offline ---------------------------------  //
   if(armState == 0)    
   {
@@ -71,6 +70,7 @@ void loop()
   }
 
   // ----------------------------- Online ------------------------------ //
+  // set initial mode parameters
   if(armState == 1)
   {
     mode = checkMode(joySW, joySWLast); 

@@ -23,6 +23,10 @@ int stepMin = 1;
 int stepThresh1 = 10;
 
 
+// Set next degree for servo
+// @param targetDeg (target degree)
+// @param deg (current degree)
+// @return deg
 int moveServo(int targetDeg, int deg)
 {
   if(targetDeg > deg)                          // move positive
@@ -40,6 +44,11 @@ int moveServo(int targetDeg, int deg)
 }
 
 
+// move lamp into new start position and terminate when complete
+// @pararm targetX 
+// @param targetY
+// @param degs[0] (degX lamp 1)
+// @param degs[1] (degY lamp 1)
 void initializeState()
 {
   degs[0] = moveServo(targetX, degs[0]);

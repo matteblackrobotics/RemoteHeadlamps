@@ -57,7 +57,7 @@ float readJoyY()
 }
 
 
-bool readJoySW() 
+bool checkJoySW() 
 {
   bool sw = digitalRead(joySWPin);
   sw = !sw; //reverse for pullup switch
@@ -66,13 +66,13 @@ bool readJoySW()
 
 
 // Is the system armed or not
-bool checkArmState(bool sw)
+bool checkArmState(bool sw1)
   {
-    if(sw == LOW) 
+    if(sw1 == LOW) 
     {
       holdCount = 0;
     }
-    if(sw == HIGH) 
+    if(sw1 == HIGH) 
     {
       ledBrightYellow();              // not flashing yellow when button pressed...
       holdCount++;
@@ -87,20 +87,23 @@ bool checkArmState(bool sw)
     return armState;
   }
 
-
-int checkMode(bool sw, bool swLast)
+// What is the mode
+// @param sw (switch state)
+// @param swLast (last switch state)
+// @return mode
+int checkMode(bool sw2, bool swLast)
   {
-    if(sw == HIGH)
+    if(sw2 == HIGH)
     {
       ledBrightYellow();
-      if(sw != swLast)
+      if(sw2 != swLast)
       {
         mode++;
         initializing = true;
         if(mode > modeMax) {mode = 0;}
       }
     }
-    swLast = sw;
+    swLast = sw2;
     return mode;
   }
 

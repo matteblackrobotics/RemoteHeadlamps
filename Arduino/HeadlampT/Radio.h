@@ -1,6 +1,10 @@
 #ifndef Radio_h
 #define Radio_h
 
+#include "Gimbal.h"
+#include "Lamp.h"
+
+
 // ------------------------------------------ nRF24L01 ------------------------------------ ------- //
 RF24 myRadio (7, 8);  // CE, CSN 
 const byte addressTR1[6] = "10001";  // Lamp 1 array of bits Transmitter to Reciever
@@ -31,6 +35,42 @@ struct packageR
   }; 
 
 packageR dataR;
+
+
+void dataPrep()
+{
+  if(mirrorState == true) {degs[2] = 180 - degs[0];}  // X Lamps Mirror
+  else {degs[2] = degs[0];}                           // X Lamps Follow
+  degs[3] = degs[1];                                  // Y Lamps Follow
+
+  // Bound servo degree
+  for(int i=0; i<sizeDegs; i++)
+  {
+    degs[i] = bound(degs[i], degMin, degMax);
+  }
+
+}
+
+void dataTransmit()
+{
+  // ---------- populate & transmit data packet ------- //
+  // transmit to both        
+  dataT.lampBrightness = lampBrightness;
+  dataT.joySW = joySW;
+
+  // transmit to lamp 1
+  dataT.servoX = degs[0];   // servo_x1_degree
+  dataT.servoY = degs[1];   // servo__y1_degree
+  myRadio.openWritingPipe(addressTR1);   // Lamp 1
+  myRadio.write(&dataT, sizeof(dataT));
+
+  // transmit to lamp 2
+  dataT.servoX = degs[2];   // servo_x2_degree
+  dataT.servoY = degs[3];   // servo_y2_degree
+  myRadio.openWritingPipe(addressTR2);   // Lamp 2
+  myRadio.write(&dataT, sizeof(dataT));
+}
+
 
 void radioSetup()
 {

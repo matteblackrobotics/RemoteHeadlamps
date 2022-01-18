@@ -1,5 +1,8 @@
 // main
 // /dev/cu.usbserial-14320
+// function branch
+// explore public and private variabales
+// explore functions
 
 // standard libraries
 // #include <SPI.h>
@@ -51,10 +54,7 @@ void loop()
   // If new state is selected
   if(initializing == true)
   {
-    degs[0] = moveServo(targetX, degs[0]);
-    degs[1] = moveServo(targetY, degs[1]);
-    // ledYellow();
-    if(targetX == degs[0] && targetY == degs[1]) {initializing = false;} 
+    initializeState();
   }
 
     
@@ -156,36 +156,8 @@ void loop()
     } // end Online
     
   
-  // --------------------- Data Prep ---------------------------// 
-  if(mirrorState == true) {degs[2] = 180 - degs[0];}  // X Lamps Mirror
-  else {degs[2] = degs[0];}                           // X Lamps Follow
-  degs[3] = degs[1];                                  // Y Lamps Follow
-
-  // Add mech0s and Bound servo degree
-  for(int i=0; i<sizeDegs; i++)
-  {
-    degs[i] = bound(degs[i], degMin, degMax);
-    degs[i] = degs[i] + mech0s[i];
-  }
-  
-  
-  // ---------- populate & transmit data packet ------- //
-  // transmit to both        
-  dataT.lampBrightness = lampBrightness;
-  dataT.joySW = joySW;
-
-  // transmit to lamp 1
-  dataT.servoX = degs[0];   // servo_x1_degree
-  dataT.servoY = degs[1];   // servo__y1_degree
-  myRadio.openWritingPipe(addressTR1);   // Lamp 1
-  myRadio.write(&dataT, sizeof(dataT));
-
-  // transmit to lamp 2
-  dataT.servoX = degs[2];   // servo_x2_degree
-  dataT.servoY = degs[3];   // servo_y2_degree
-  myRadio.openWritingPipe(addressTR2);   // Lamp 2
-  myRadio.write(&dataT, sizeof(dataT));
-
+  dataPrep();
+  dataTransmit();
   // ledOff();
   print1();
   // Serial.println(lampBrightness);

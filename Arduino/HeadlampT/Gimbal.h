@@ -24,7 +24,6 @@ int stepMin = 1;
 int stepThresh1 = 10;
 
 
-
 int moveServo(int targetDeg, int deg)
 {
   if(targetDeg > deg)                          // move positive

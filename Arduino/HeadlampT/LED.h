@@ -56,6 +56,13 @@ ledStrip.setPixelColor(ledIndex, 50, 50, 50);
 ledStrip.show();
 }
 
+void ledBrightWhite()
+{
+ledOff();
+ledStrip.setPixelColor(ledIndex, 100, 100, 100); 
+ledStrip.show();
+}
+
 void ledBrightYellow()
 {
 ledOff();

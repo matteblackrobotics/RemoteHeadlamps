@@ -1,5 +1,6 @@
 {
     "board": "arduino:avr:nano",
     "port": "/dev/cu.usbserial-14320",
-    "sketch": "HeadlampT.ino"
+    "sketch": "HeadlampT.ino",
+    "programmer": "arduino:avrispmkii"
 }

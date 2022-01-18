@@ -1,4 +1,5 @@
-// joyupdate - Branch
+// main
+// /dev/cu.usbserial-14320
 
 // standard libraries
 // #include <SPI.h>
@@ -16,6 +17,7 @@
 #include "Gimbal.h"
 #include "PrintOut.h"
 #include "Lamp.h"
+#include "Timer.h"
 
 
 // --------------------------- VOID SETUP -------------------- //
@@ -27,6 +29,7 @@ void setup()
  ledSetup();
  wheelSetup();
  radioSetup();
+ timerSetup();
 }
 
 
@@ -34,6 +37,13 @@ void setup()
 // -------------------------------- VOID LOOP ----------------------------- //
 void loop() 
 {
+  if(checkTime(startTime1, duration1) == true) 
+  {
+    startTime1 = millis();
+    ledWhite();
+    delay(10);
+  }
+
   joySW = readJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
 
@@ -43,7 +53,7 @@ void loop()
   {
     degs[0] = moveServo(targetX, degs[0]);
     degs[1] = moveServo(targetY, degs[1]);
-    ledYellow();
+    // ledYellow();
     if(targetX == degs[0] && targetY == degs[1]) {initializing = false;} 
   }
 
@@ -137,10 +147,10 @@ void loop()
           degs[0] = moveServo(targetX, degs[0]);
           
           ledBlue();
-          printFloat("wheelCal", wheelCal);  
-          printFloat("wheelRot", wheelRot);    
-          printFloat("lampPos", wheelRot);
-          printFloat("targetX", targetX);
+          //printFloat("wheelCal", wheelCal);  
+          //printFloat("wheelRot", wheelRot);    
+          //printFloat("lampPos", wheelRot);
+          //printFloat("targetX", targetX);
         }
       } 
     } // end Online
@@ -160,8 +170,9 @@ void loop()
   
   
   // ---------- populate & transmit data packet ------- //
-  // transmit to both         
+  // transmit to both        
   dataT.lampBrightness = lampBrightness;
+  dataT.joySW = joySW;
 
   // transmit to lamp 1
   dataT.servoX = degs[0];   // servo_x1_degree
@@ -175,7 +186,8 @@ void loop()
   myRadio.openWritingPipe(addressTR2);   // Lamp 2
   myRadio.write(&dataT, sizeof(dataT));
 
-  ledOff();
-  // print1();
-  delay(0);
+  // ledOff();
+  print1();
+  // Serial.println(lampBrightness);
+  delay(delay1);
 }

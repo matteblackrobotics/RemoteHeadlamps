@@ -1,7 +1,7 @@
 #ifndef Lamp_h
 #define Lamp_h
 
-float lampBrightness;
+int lampBrightness;
 
 
 #endif

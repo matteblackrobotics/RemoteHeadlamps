@@ -25,7 +25,7 @@ bool mirrorState = false;    // do lamps mirror
 bool initializing = true;      // do lamps need to move to initial position?
 
 int holdCount = 0;
-const int holdThresh1 = 50;
+const int holdThresh1 = 10;
 bool armState = false;                // stow or operational, [0,1]
 const int armStateMax = 1;
 
@@ -77,11 +77,12 @@ bool checkArmState(bool sw)
       ledBrightYellow();              // not flashing yellow when button pressed...
       holdCount++;
     }
-    if(holdCount == holdThresh1) 
+    if(holdCount >= holdThresh1) 
     {
       armState = !armState;
       holdCount = 0;
     }
+
     if(armState == false) {mode = 0;}
     return armState;
   }

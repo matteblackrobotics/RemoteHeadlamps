@@ -14,13 +14,13 @@ struct packageT // creates data structure packageT that consists of a group of v
   {
     float servoX; 
     float servoY; 
-    float lampBrightness;
+    int lampBrightness;
+    bool joySW;
   }; 
   
-// typedef struct packageT Package_t; // typedef creates a custom data type "Package" is a differente name for "struct package"
+typedef struct packageT PackageT; // typedef creates a custom data type "Package" is a differente name for "struct package"
 // Package_t data_t;  // make "data" a struct type variable with the format of "Package"
-
-packageT dataT;
+PackageT dataT;
 
 // Reciever to Transmitter
 struct packageR

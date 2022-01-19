@@ -38,6 +38,15 @@ void setup()
 
 // -------------------------------- VOID LOOP ----------------------------- //
 // -------------------------------- VOID LOOP ----------------------------- //
+
+// check switch hold to switch between armed and disarmed
+// check switch click to switch between modes
+// initliize all states of lamp
+// generate target positions for each servo from either joysick, pot, or intitial state of mode
+// prepare data to be transmitted
+// transmite data over radio
+
+
 void loop() 
 {
   if(checkTime(startTime1, duration1) == true) 
@@ -52,114 +61,92 @@ void loop()
 
   // -------------------- initialize position ---------------------- //
   // If new state is selected
-  if(initializing == true)
+  initializing = initializeState(initializing);
+
+  switch(armState)
   {
-    initializeState();
-  }
+    case 1: // online
+      mode = checkMode(joySW, joySWLast); 
+      joySWLast = joySW;
+      switch(mode)
+      { 
+        case 1: // mirror
+          targetX = 40;
+          targetY = 120;
+          lampBrightness = 255;
+          mirrorState = true;
+        break;
 
-  // ---------------------------- Offline ---------------------------------  //
-  if(armState == 0)    
-  {
-    targetX = degMin;
-    targetY = degMax;
-    lampBrightness = 0;
-    mirrorState = false;
-    initializing = true;
-    mode = modeMax;
-    ledLightBlue();
-  }
-
-  // ----------------------------- Online ------------------------------ //
-  // set initial mode parameters
-  if(armState == 1)
-  {
-    mode = checkMode(joySW, joySWLast); 
-    joySWLast = joySW;
-        
-    if(mode == 0) // Spotlight          
-    {
-      targetX = degMid;
-      targetY = degMid;
-      lampBrightness = 255;
-      mirrorState = false; 
-    }
-    
-    if(mode == 1) // Mirror         
-    {
-      targetX = 40;
-      targetY = 120;
-      lampBrightness = 255;
-      mirrorState = true;
-    }
-
-    if(mode == 2) // Auto         
-    {
-      targetX = degMid;
-      targetY = degMid;
-      lampBrightness = 255;
-      mirrorState = false;
-    }
-
-    if(initializing == false)
-    {
-    // -------------------- Joysitck Modes ---------------------- //
-        if(mode == 0) // Spotlight
-        {
-          ledRed();
-        }
-        
-        if(mode == 1) // mirror state
-        {
-          ledGreen();
-        }    
-        
-        if(mode == 0 || mode == 1)
-        {
-          // Read joystick
-          joyX = -readJoyX();  // [-1:1]
-          joyY = -readJoyY();
-          
-          // Deadband for no motion
-          joyX = addDeadband(joyX, .25);
-          joyY = addDeadband(joyY, .25);
-      
-          // calculate next step size
-          stepX = joyX * 30.0;  // max joystick = 5 steps
-          stepY = joyY * 30.0;
-
-          // new target
-          targetX = degs[0] + stepX;
-          targetY = degs[1] + stepY;
-
-          // move servo to next step
-          degs[0] = moveServo(targetX, degs[0]);
-          degs[1] = moveServo(targetY, degs[1]);
-        }
-      
- 
-         // ------------------- Auto Mode -------------------- //
-        if(mode == 2)
-        {
+        case 2: // auto
+          targetX = degMid;
+          targetY = degMid;
+          lampBrightness = 255;
           mirrorState = false;
-          wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
-          lampPos = (wheelRot/wheelRotMax) * 90.0;      // [-90:90] lamp position from forward 
-          targetX = lampPos + degMid;                  // abosolute positioning from 90
-          degs[0] = moveServo(targetX, degs[0]);
-          
-          ledBlue();
-          //printFloat("wheelCal", wheelCal);  
-          //printFloat("wheelRot", wheelRot);    
-          //printFloat("lampPos", wheelRot);
-          //printFloat("targetX", targetX);
-        }
-      } 
-    } // end Online
-    
+        break;
+
+        default: // spotlight
+          targetX = degMid;
+          targetY = degMid;
+          lampBrightness = 255;
+          mirrorState = false;
+      }
+    break;
+
+    default:    // offline
+      targetX = degMin;
+      targetY = degMax;
+      lampBrightness = 0;
+      mirrorState = false;
+      initializing = true;
+      mode = 0;
+      ledLightBlue();
+  }
+
+  if(initializing == false && armState == true)
+  {
+    // -------------------- Joysitck Modes ---------------------- //
+    if(mode == 0 || mode == 1)
+    {
+      if(mode == 0) {ledRed();}     // Spotlight
+      if(mode == 1) {ledGreen();}  // mirror
+
+      // Read joystick
+      joyX = -readJoyX();  // [-1:1]
+      joyY = -readJoyY();
+      
+      // Deadband for no motion
+      joyX = addDeadband(joyX, .25);
+      joyY = addDeadband(joyY, .25);
   
+      // calculate next step size
+      stepX = joyX * 30.0;  // max joystick = 5 steps
+      stepY = joyY * 30.0;
+
+      // new target
+      targetX = degs[0] + stepX;
+      targetY = degs[1] + stepY;
+
+      // move servo to next step
+      degs[0] = moveServo(targetX, degs[0]);
+      degs[1] = moveServo(targetY, degs[1]);
+    }
+      
+    // ------------------- Auto Mode -------------------- //
+    if(mode == 2)
+    {
+      mirrorState = false;
+      wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
+      lampPos = (wheelRot/wheelRotMax) * 90.0;      // [-90:90] lamp position from forward 
+      targetX = lampPos + degMid;                  // abosolute positioning from 90
+      degs[0] = moveServo(targetX, degs[0]);
+      degs[1] = moveServo(targetY, degs[1]);
+      ledBlue();
+    }
+  } // end Online
+   
+    
   dataPrep();
   dataTransmit();
-  // ledOff();
   print1();
-  // Serial.println(lampBrightness);
   delay(delay1);
 }

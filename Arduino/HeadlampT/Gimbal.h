@@ -49,12 +49,19 @@ int moveServo(int targetDeg, int deg)
 // @param targetY
 // @param degs[0] (degX lamp 1)
 // @param degs[1] (degY lamp 1)
-void initializeState()
+bool initializeState(bool initializing)
 {
-  degs[0] = moveServo(targetX, degs[0]);
-  degs[1] = moveServo(targetY, degs[1]);
-  // ledYellow();
-  if(targetX == degs[0] && targetY == degs[1]) {initializing = false;} 
+  if(initializing)
+  {
+    degs[0] = moveServo(targetX, degs[0]);
+    degs[1] = moveServo(targetY, degs[1]);
+  }
+
+  if(targetX == degs[0] && targetY == degs[1]) 
+  {
+    initializing = false;
+  } 
+  return initializing;
 }
 
 

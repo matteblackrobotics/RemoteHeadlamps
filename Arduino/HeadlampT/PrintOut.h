@@ -51,19 +51,22 @@ void print1()
   {
   printBool("sw", joySW);
   printInt("hold_count", holdCount);
-  Serial.print("  arm_" ); Serial.print(armState); Serial.print(" ");
-  Serial.print("  mode_" ); Serial.print(mode); Serial.print(" ");
-  Serial.print("  mirror_" ); Serial.print(mirrorState); Serial.print(" ");
-  Serial.print("  initializing_"); Serial.print(initializing); Serial.print(" ");
-  Serial.print("  joyX_" ); Serial.print(joyX); Serial.print(" ");  
-  Serial.print("  joyY_" ); Serial.print(joyY); Serial.print(" ");  
-  Serial.print("  joySW_" ); Serial.print(joySW); Serial.print(" "); 
-  Serial.print("  bri_" ); Serial.print(lampBrightness); Serial.print(" ");
-  Serial.print("  step_x_" ); Serial.print(stepX); Serial.print(" ");
-  Serial.print("  step_y_" ); Serial.print(stepY); Serial.print(" ");
-  Serial.print("  target,x1,x2_" ); Serial.print(targetX); Serial.print(" "); Serial.print(degs[0]); Serial.print(" "); Serial.print(degs[2]); Serial.print(" "); 
-  Serial.print("  target,y1,y2_" ); Serial.print(targetY); Serial.print(" "); Serial.print(degs[1]); Serial.print(" "); Serial.print(degs[3]); Serial.print(" ");
-  Serial.print("  pot_val_" ); Serial.print(potVal); Serial.print(" ");
+  Serial.print(" arm_" ); Serial.print(armState); Serial.print(" ");
+  Serial.print(" mode_" ); Serial.print(mode); Serial.print(" ");
+  Serial.print(" mirror_" ); Serial.print(mirrorState); Serial.print(" ");
+  Serial.print(" initializing_"); Serial.print(initializing); Serial.print(" ");
+  Serial.print(" joyX_" ); Serial.print(joyX); Serial.print(" ");  
+  Serial.print(" joyY_" ); Serial.print(joyY); Serial.print(" ");  
+  Serial.print(" joySW_" ); Serial.print(joySW); Serial.print(" "); 
+  Serial.print(" bri_" ); Serial.print(lampBrightness); Serial.print(" ");
+  Serial.print(" step_x_" ); Serial.print(stepX); Serial.print(" ");
+  Serial.print(" step_y_" ); Serial.print(stepY); Serial.print(" ");
+  Serial.print(" target,x1,x2_" ); Serial.print(targetX); Serial.print(" "); Serial.print(degs[0]); Serial.print(" "); Serial.print(degs[2]); Serial.print(" "); 
+  Serial.print(" target,y1,y2_" ); Serial.print(targetY); Serial.print(" "); Serial.print(degs[1]); Serial.print(" "); Serial.print(degs[3]); Serial.print(" ");
+  Serial.print(" pot_rot_" ); Serial.print(potRot); Serial.print(" ");
+  printFloat("potVolt", potVolt);
+  printFloat("potVal", potVal);
+  printFloat("wheelRot", wheelRot);
   Serial.println("");
   }
 

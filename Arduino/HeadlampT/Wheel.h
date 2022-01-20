@@ -4,38 +4,33 @@
 
 #define potPin A3
 
-const int potMin = 0;
-const int potMax = 800;
-const int potMid = 400;
-const int potVin = 5;        //?????
+float potVolt;
+const int potVin = 5;     
+const float potVMin = .12;
+const float potVMax = 4.94;
+
+float potRot;    // rotations of pot
 const int potRotMax = 10;     
 const int potRotMid = 5;
-const int potDegMax = potRotMax * 360;  // 3600
 
-const float wheelRotMax = 2.5;
-const int wheelPotMid = 0;            //// remove
-
-
-float wheelCal;            // inital position of wheel
 float wheelRot;
+float wheelCal;                         // inital position of wheel
+const float wheelRotMax = 5;            // complete wheel rotations
+const float wheelRotMid = wheelRotMax/2;  // wheeel rotations from center
 
-int potVal;            // position of steering pot
-int potDeg;
-float potVolt;
-float potRot;    // rotations of pot
+int potVal;            // digital output of steering pot
 
 float lampPos; // relative lamp position from forward
 
 
-
-
-
 float readWheelRot()
 {
-  potVolt = voltRead(potPin, potVin);                                            // read pot voltage [0:5]
-  potRot = linearMap(potVolt, 0, potVin, 0, potRotMax) - potRotMid;          // pot rotation [-5:5]
-  wheelRot = -1 * potRot;                                                           // wheel rotation [-2.5;2.5]
-  return wheelRot;   
+  potVal = analogRead(potPin);                                            // read pot input [0:1023]
+  potVolt = voltRead(potPin, potVin);                                     // reads [potVMin:potVMax] due to voltage losses
+  potVolt = linearMap(potVolt, potVMin, potVMax, 0, potVin);              // normalize to [0:5]
+  potRot = linearMap(potVolt, 0, potVin, 0, potRotMax) - potRotMid;       // pot rotation [-5:5]
+  wheelRot = -1 * potRot;                                                 // wheel rotation
+  return wheelRot;                                                        // maxes out at [-2.5:2.5] due to steering wheel
 }
 
 void wheelSetup()

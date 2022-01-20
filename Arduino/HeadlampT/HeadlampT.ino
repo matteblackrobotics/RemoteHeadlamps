@@ -1,4 +1,5 @@
-// main
+// functionBranch
+
 // /dev/cu.usbserial-14320
 // function branch
 // explore public and private variabales
@@ -65,11 +66,29 @@ void loop()
 
   switch(armState)
   {
+    default:    // offline
+      targetX = degMin;
+      targetY = degMax;
+      lampBrightness = 0;
+      mirrorState = false;
+      initializing = true;
+      mode = 0;
+      ledLightBlue();
+    break;
+
     case 1: // online
       mode = checkMode(joySW, joySWLast); 
       joySWLast = joySW;
+
       switch(mode)
       { 
+        default: // spotlight
+          targetX = degMid;
+          targetY = degMid;
+          lampBrightness = 255;
+          mirrorState = false;
+        break;
+
         case 1: // mirror
           targetX = 40;
           targetY = 120;
@@ -83,23 +102,8 @@ void loop()
           lampBrightness = 255;
           mirrorState = false;
         break;
-
-        default: // spotlight
-          targetX = degMid;
-          targetY = degMid;
-          lampBrightness = 255;
-          mirrorState = false;
       }
     break;
-
-    default:    // offline
-      targetX = degMin;
-      targetY = degMax;
-      lampBrightness = 0;
-      mirrorState = false;
-      initializing = true;
-      mode = 0;
-      ledLightBlue();
   }
 
   if(initializing == false && armState == true)
@@ -136,7 +140,7 @@ void loop()
     {
       mirrorState = false;
       wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
-      lampPos = (wheelRot/wheelRotMax) * 90.0;      // [-90:90] lamp position from forward 
+      lampPos = (wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
       targetX = lampPos + degMid;                  // abosolute positioning from 90
       degs[0] = moveServo(targetX, degs[0]);
       degs[1] = moveServo(targetY, degs[1]);

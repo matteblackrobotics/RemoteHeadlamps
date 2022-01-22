@@ -139,7 +139,7 @@ void loop()
 
   switch(armState)
   {
-    default:    // offline
+    case 0:    // offline
       targetX = degMin;
       targetY = degMax;
       lampBrightness = 0;
@@ -155,7 +155,7 @@ void loop()
 
       switch(mode)
       { 
-        default: // spotlight
+        case 0: // spotlight
           targetX = degMid;
           targetY = degMid;
           lampBrightness = 255;

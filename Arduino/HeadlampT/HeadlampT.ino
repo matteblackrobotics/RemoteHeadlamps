@@ -64,7 +64,7 @@ void loop()
   // If new state is selected
   initializing = initializeState(initializing);
 
-  switch(armState)
+  switch(armState == true)
   {
     case 0:    // offline
       targetX = degMin;

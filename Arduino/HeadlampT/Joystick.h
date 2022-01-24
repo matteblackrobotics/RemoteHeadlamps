@@ -27,7 +27,7 @@ bool initializing = true;      // do lamps need to move to initial position?
 int holdCount = 0;
 const int holdThresh1 = 10;
 bool armState = false;                // stow or operational, [0,1]
-const int armStateMax = 1;
+bool armStateLast;
 
 void joystickSetup()
 {
@@ -81,9 +81,8 @@ bool checkArmState(bool sw1)
     {
       armState = !armState;
       holdCount = 0;
+      initializing == true;
     }
-
-    if(armState == false) {mode = 0;}
     return armState;
   }
 
@@ -91,21 +90,18 @@ bool checkArmState(bool sw1)
 // @param sw (switch state)
 // @param swLast (last switch state)
 // @return mode
-int checkMode(bool sw2, bool swLast)
+int checkMode()
   {
-    if(sw2 == HIGH)
+    if(joySW == HIGH)
     {
       ledBrightYellow();
-      if(sw2 != swLast)
+      if(joySW != joySWLast)
       {
         mode++;
         initializing = true;
         if(mode > modeMax) {mode = 0;}
       }
     }
-    swLast = sw2;
     return mode;
   }
-
-  
 #endif

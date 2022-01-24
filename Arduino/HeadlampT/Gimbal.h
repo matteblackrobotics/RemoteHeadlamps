@@ -27,7 +27,7 @@ int stepThresh1 = 10;
 // @param targetDeg (target degree)
 // @param deg (current degree)
 // @return deg
-int moveServo(int targetDeg, int deg)
+int servoDeg(int targetDeg, int deg)
 {
   if(targetDeg > deg)                          // move positive
   {
@@ -53,8 +53,8 @@ bool initializeState(bool initializing)
 {
   if(initializing)
   {
-    degs[0] = moveServo(targetX, degs[0]);
-    degs[1] = moveServo(targetY, degs[1]);
+    degs[0] = servoDeg(targetX, degs[0]);
+    degs[1] = servoDeg(targetY, degs[1]);
   }
 
   if(targetX == degs[0] && targetY == degs[1]) 
@@ -64,5 +64,15 @@ bool initializeState(bool initializing)
   return initializing;
 }
 
+// check if servos have reached their initial target
+bool checkInitializing()
+{
+  if(targetX == degs[0] && targetY == degs[1]) 
+  {
+    initializing = false;
+  } 
+  else{initializing = true;}
+  return initializing;
+}
 
 #endif

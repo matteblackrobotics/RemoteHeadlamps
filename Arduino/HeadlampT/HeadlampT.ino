@@ -59,89 +59,94 @@ void loop()
 
   joySW = checkJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
-  // if(armState != armStateLast) {initializing == true;}
-  // armStateLast = armState;
 
-  if(armState == false)
+  switch(armState)
   {
-    lampBrightness = 0;
-    mirrorState = false;
-    mode = 2;
-    targetX = degMin;
-    targetY = degMax;
-    if(initializing == true)
-    {
-      ledYellow;
-      initializing = checkInitializing();
-    }
-    if(initializing == false)
-    {
-      ledLightBlue();
-    }
-  }
-
-  if(armState == true)
-  {  
-    mode = checkMode();
-    joySWLast = joySW;
-    
-    if(mode == 0) //spotlight
-    {
-      lampBrightness = 255;
+    case 0:
+      lampBrightness = 0;
       mirrorState = false;
-      if(initializing == true)
+      mode = 2;
+      targetX = degMin;
+      targetY = degMax;
+      switch(initializing)
       {
-        ledYellow();
-        targetX = degMid;
-        targetY = degMid;
-        initializing = checkInitializing();
-      }
-      if(initializing == false)
-      {
-        ledRed();
-        joyToTarget();
-      }
-    }
+        case 1:
+          ledYellow;
+          initializing = checkInitializing();
+        break;    
 
-    if(mode == 1) //mirror
-    {
-      lampBrightness = 255;
-      mirrorState = true;
-      
-      if(initializing == true)
-      {
-        ledYellow();
-        targetX = 40;
-        targetY = 120;
-        initializing = checkInitializing();
+        case 0:
+          ledLightBlue();
+        break;
       }
-      if(initializing == false)
-      {
-        ledGreen();
-        joyToTarget();
-      }
-    }
+    break;
 
-    if(mode == 2) //auto
-    {
-      lampBrightness = 255;
-      mirrorState = false;
-      if(initializing == true)
+    case 1: 
+      mode = checkMode();
+      joySWLast = joySW;
+      switch(mode)
       {
-        targetX = degMid;
-        targetY = degMid;
-        initializing = checkInitializing();
+        case 0:  // spotlight
+          lampBrightness = 255;
+          mirrorState = false;
+          switch(initializing)
+          {
+            case 1: 
+              ledYellow();
+              targetX = degMid;
+              targetY = degMid;
+              initializing = checkInitializing();
+            break;
+
+            case 0:
+              ledRed();
+              joyToTarget();
+            break;
+          }
+        break;
+
+        case 1: // mirror
+          lampBrightness = 255;
+          mirrorState = true;
+          switch(initializing)
+          {
+            case 1:
+              ledYellow();
+              targetX = 40;
+              targetY = 120;
+              initializing = checkInitializing();
+            break;
+
+            case 0:
+              ledGreen();
+              joyToTarget();
+            break;
+          }
+        break;
+
+        case 2: // auto
+          lampBrightness = 255;
+          mirrorState = false;
+          switch(initializing)
+          {
+            case 1:
+              targetX = degMid;
+              targetY = degMid;
+              initializing = checkInitializing();
+            break;
+
+            case 0:
+              ledBlue();
+              wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
+              lampPos = (wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
+              targetX = lampPos + degMid;                  // abosolute positioning from 90
+              targetY = degMid;
+            break;
+          }
+        break;
       }
-      if(initializing == false)
-      {
-        ledBlue();
-        wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
-        lampPos = (wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
-        targetX = lampPos + degMid;                  // abosolute positioning from 90
-        targetY = degMid;
-      }
-    }
-  } // end Online
+    break;
+  } // end switch cases
 
   degs[0] = servoDeg(targetX, degs[0]);
   degs[1] = servoDeg(targetY, degs[1]);

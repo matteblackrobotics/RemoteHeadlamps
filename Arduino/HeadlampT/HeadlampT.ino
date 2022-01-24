@@ -23,7 +23,6 @@
 #include "Lamp.h"
 #include "Timer.h"
 
-bool changeArmState = false;
 
 // --------------------------- VOID SETUP -------------------- //
 // --------------------------- VOID SETUP -------------------- //
@@ -58,80 +57,8 @@ void loop()
     delay(10);
   }
 
-  joySW = checkJoySW();                             // read joystick button
-  initializing = initializeState(initializing);
-
-  if(armState == true)
-  { 
-    changeArmState = false;
-    mode = checkMode(joySW, joySWLast);
-    joySWLast = joySW;
-
-    if(changeArmState == true && initializing == false)
-    {
-      armState = false;
-      changeArmState = false;
-    }
-
-
-    if(mode = 0)  //spotlight
-    {
-      lampBrightness = 255;
-      mirrorState = false;
-
-      if(initializing == true)
-      {
-        targetX = degMid;
-        targetY = degMid;
-      }
-
-      if(initializing == false)
-      {
-        joyX = -readJoyX();
-        joyY = -readJoyY();
-      }
-
-    }
-
-    if(mode = 1)
-    {
-       lampBrightness = 255;
-      mirrorState = true;
-
-      if(initializing == true)
-      {
-        targetX = 40;
-        targetY = 120;
-      }
-
-      if(initializing == false)
-      {
-        joyX = -readJoyX();
-        joyY = -readJoyY();
-      }
-    }
-
-
-    if(checkArmState(joySW) == 0)
-    {
-      targetX = degMin;
-      targetY = degMax;
-      lampBrightness = 0;
-      mirrorState = false;
-      initializing = true;
-      changeArmState = true;  // we are shutting down
-      ledLightBlue();
-    }
-     
-  }
-
-  if(armState == false)
-  {
-    armState = checkArmState(joySW); 
-  }
-
-
-
+  joySW = checkJoySW();                       // read joystick button
+  armState = checkArmState(joySW);           // long button press?
 
   // -------------------- initialize position ---------------------- //
   // If new state is selected

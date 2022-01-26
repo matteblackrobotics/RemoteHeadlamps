@@ -1,7 +1,6 @@
-// functionBranch
+// 
 
 // /dev/cu.usbserial-14320
-// function branch
 // explore public and private variabales
 // explore functions
 
@@ -60,8 +59,10 @@ void loop()
   joySW = checkJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
 
+
   switch(armState)
   {
+    // disarmed
     case 0:
       lampBrightness = 0;
       mirrorState = false;
@@ -70,72 +71,73 @@ void loop()
       targetY = degMax;
       switch(initializing)
       {
-        case 1:
+        case 1: // initializing
           ledYellow;
           initializing = checkInitializing();
         break;    
 
-        case 0:
+        case 0: // complete
           ledLightBlue();
         break;
       }
     break;
-
+    
+    // armed
     case 1: 
       mode = checkMode();
       joySWLast = joySW;
       switch(mode)
       {
-        case 0:  // spotlight
-          lampBrightness = 255;
+        case 0:  // spotlight mode
+          lampBrightness = 100;
           mirrorState = false;
           switch(initializing)
           {
-            case 1: 
+            case 1: // initialiazing
               ledYellow();
               targetX = degMid;
               targetY = degMid;
               initializing = checkInitializing();
             break;
 
-            case 0:
+            case 0: // readjoy
               ledRed();
               joyToTarget();
             break;
           }
         break;
 
-        case 1: // mirror
-          lampBrightness = 255;
+        case 1: // mirror mode
+          lampBrightness = 100;
           mirrorState = true;
           switch(initializing)
           {
-            case 1:
+            case 1: // initializing
               ledYellow();
               targetX = 40;
               targetY = 120;
               initializing = checkInitializing();
             break;
 
-            case 0:
+            case 0: // readJoy
               ledGreen();
               joyToTarget();
             break;
           }
         break;
 
-        case 2: // auto
-          lampBrightness = 255;
+        case 2: // auto mode
+          lampBrightness = 100;
           mirrorState = false;
           switch(initializing)
           {
-            case 1:
+            case 1: // initializing
               targetX = degMid;
               targetY = degMid;
               initializing = checkInitializing();
             break;
 
-            case 0:
+            case 0: // read wheelPot
               ledBlue();
               wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
               lampPos = (wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 

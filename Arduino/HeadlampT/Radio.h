@@ -45,6 +45,7 @@ packageR dataR;
 // @return degs[3] (yDeg lamp 2)
 void dataPrep()
 {
+  lampBrightness = normalizeLamp(lampBrightness);     // converts [0-100] to [0-255]
   if(mirrorState == true) {degs[2] = 180 - degs[0];}  // X Lamps Mirror
   else {degs[2] = degs[0];}                           // X Lamps Follow
   degs[3] = degs[1];                                  // Y Lamps Follow

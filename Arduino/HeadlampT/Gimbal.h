@@ -67,7 +67,7 @@ bool initializeState(bool initializing)
 // check if servos have reached their initial target
 bool checkInitializing()
 {
-  if(targetX == degs[0] && targetY == degs[1]) 
+  if(targetX == degs[0] && targetY == degs[1]) // if error = 0
   {
     initializing = false;
   } 

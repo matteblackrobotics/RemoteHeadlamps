@@ -1,8 +1,12 @@
 // 
 
 // /dev/cu.usbserial-14320
-// explore public and private variabales
+
 // explore functions
+// public vs private vs local vs global
+// set and get functions
+// java classes
+// get rid of global variables
 
 // standard libraries
 // #include <SPI.h>
@@ -21,6 +25,10 @@
 #include "PrintOut.h"
 #include "Lamp.h"
 #include "Timer.h"
+
+// Public Variables
+// armState
+
 
 
 // --------------------------- VOID SETUP -------------------- //
@@ -59,7 +67,6 @@ void loop()
   joySW = checkJoySW();                       // read joystick button
   armState = checkArmState(joySW);           // long button press?
 
-
   switch(armState)
   {
     // disarmed
@@ -67,8 +74,12 @@ void loop()
       lampBrightness = 0;
       mirrorState = false;
       mode = 2;
-      targetX = degMin;
-      targetY = degMax;
+
+      // targetX = degMin;
+      // targetY = degMax;
+      setTargetX(degMin);
+      setTargetY(degMax);
+    
       switch(initializing)
       {
         case 1: // initializing
@@ -150,7 +161,11 @@ void loop()
     break;
   } // end switch cases
 
-  degs[0] = servoDeg(targetX, degs[0]);
+  int TargetX = getTargetX();
+  // targetY = getTargetY();
+
+  targetX
+  degs[0] = servoDeg(getTargetX(), degs[0]);
   degs[1] = servoDeg(targetY, degs[1]);
   dataPrep();
   dataTransmit();

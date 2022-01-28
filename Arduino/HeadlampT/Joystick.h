@@ -14,8 +14,6 @@ float joyX;
 float joyY;
 bool joySW;
 bool joySWLast;
-int joyMax = 1;
-int joyMin = -1;
 
 
 // -------------------------------------- button press --------------------------------- //
@@ -28,6 +26,18 @@ int holdCount = 0;
 const int holdThresh1 = 10;
 bool armState = false;                // stow or operational, [0,1]
 bool armStateLast;
+
+void setJoyX(float _joyX)
+{
+  joyX = _joyX;
+}
+
+float getJoyX()
+{
+  return joyX;
+}
+
+
 
 void joystickSetup()
 {

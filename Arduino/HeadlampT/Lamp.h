@@ -8,7 +8,7 @@ int lampBrightness;
 int normalizeLamp(int lampIn)
 {
     int lampOut;
-    lampOut = linearMap(lampIn, 0, 100, 0, 255)
+    lampOut = linearMap(lampIn, 0, 100, 0, 255);
     return lampOut;
 }
 

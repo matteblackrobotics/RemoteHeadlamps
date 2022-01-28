@@ -6,7 +6,7 @@
 int servoXdeg;                // individual servo position
 int servoYdeg; 
 
-int degMax = 180;    // min bound for servo position due to power issues??    // desired max
+int degMax = 180;    // min bound for servo position due to mech bounds    // desired max
 int degMin = 0;    // min bound for servo position due to power issues??     // desired min
 int degMid = 180/2;  // correct mid position for servo
 
@@ -14,13 +14,39 @@ int degs[4] = {degMin, degMax, degMin, degMax};      // servo degree array {x1, 
 int sizeDegs = sizeof(degs)/sizeof(degs[0]);           // size of degree array
 int steps[2] = {0, 0};                                   // step x, y
 
-int targetX; 
-int targetY;
+int targetX; // public var only within header file
+int targetY;  // public var 
 int stepX; 
 int stepY;
 int stepMax = 5;
 int stepMin = 1; 
 int stepThresh1 = 10;
+
+
+// public function to set joyX
+void setTargetX(int _targetX)
+{
+  targetX = _targetX;
+}
+
+float getTargetX()
+{
+  return targetX;
+}
+
+
+
+
+
+float setTargetY(float _targetY)
+{
+  float targetY = _targetY;
+}
+
+float getTargetY()
+{
+  return targetY;
+}
 
 
 // Set next degree for servo

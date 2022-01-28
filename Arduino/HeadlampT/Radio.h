@@ -57,6 +57,10 @@ void dataPrep()
   }
 }
 
+void dataPrep2(float _degMax, float _degMin, int _lampBrigthness, )
+
+
+
 
 // assign data into proper transmission packet
 // @param lampBrightness

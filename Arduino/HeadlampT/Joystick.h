@@ -27,6 +27,7 @@ const int holdThresh1 = 10;
 bool armState = false;                // stow or operational, [0,1]
 bool armStateLast;
 
+// public function to set joyX
 void setJoyX(float _joyX)
 {
   joyX = _joyX;

@@ -175,7 +175,7 @@ void loop()
   // printWheel();
   printLn();
   
-  delay(0);
+  delay(10);
 
 } // end void loop
 

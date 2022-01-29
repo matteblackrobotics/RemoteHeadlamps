@@ -91,7 +91,7 @@ void radioSetup()
   myRadio.setChannel(115);              // 125 Possible channels, each channel can have up to 6 addresses. 
   myRadio.setPALevel(RF24_PA_MAX);
   myRadio.setDataRate(RF24_250KBPS); 
-  // myRadio.openReadingPipe(0, address_RT); // Not recieving data
+  // myRadio.openReadingPipe(0, addresRT); // Not recieving data
   myRadio.stopListening();
   delay(1000);
 }

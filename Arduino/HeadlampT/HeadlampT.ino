@@ -4,6 +4,8 @@
 // explore public and private variabales
 // explore functions
 
+// make timers for button presses and transmission
+
 // standard libraries
 // #include <SPI.h>
 #include <Adafruit_NeoPixel.h>
@@ -140,7 +142,9 @@ void loop()
             case 0: // read wheelPot
               ledBlue();
               wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
-              lampPos = (wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
+              lampPos = -(wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
+              float sensitivity = 1.25;
+              lampPos = lampPos * sensitivity;
               targetX = lampPos + degMid;                  // abosolute positioning from 90
               targetY = degMid;
             break;
@@ -160,7 +164,7 @@ void loop()
   // printWheel();
   printLn();
   
-  delay(0);
+  delay(10);
 
 } // end void loop
 

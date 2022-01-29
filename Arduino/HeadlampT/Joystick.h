@@ -25,7 +25,7 @@ bool mirrorState = false;    // do lamps mirror
 bool initializing = true;      // do lamps need to move to initial position?
 
 int holdCount = 0;
-const int holdThresh1 = 10;
+const int holdThresh1 = 20;
 bool armState = false;                // stow or operational, [0,1]
 bool armStateLast;
 

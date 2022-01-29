@@ -21,6 +21,7 @@ const float wheelRotMid = wheelRotMax/2;  // wheeel rotations from center
 int potVal;            // digital output of steering pot
 
 float lampPos; // relative lamp position from forward
+float lampPosSensitivity = 1.25;   // how sensative is the lamp. instea of 1:1 ratio with wheel its 1:1.25 ratio
 
 
 float readWheelRot()

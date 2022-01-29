@@ -91,7 +91,6 @@ void loop()
       switch(mode)
       {
         case 0:  // spotlight mode
-          lampBrightness = 100;
           mirrorState = false;
           switch(initializing)
           {
@@ -103,6 +102,7 @@ void loop()
             break;
 
             case 0: // readjoy
+              lampBrightness = 100;
               ledRed();
               joyToTarget();
             break;
@@ -110,7 +110,6 @@ void loop()
         break;
 
         case 1: // mirror mode
-          lampBrightness = 100;
           mirrorState = true;
           switch(initializing)
           {
@@ -122,6 +121,7 @@ void loop()
             break;
 
             case 0: // readJoy
+              lampBrightness = 100;
               ledGreen();
               joyToTarget();
             break;
@@ -129,7 +129,6 @@ void loop()
         break;
 
         case 2: // auto mode
-          lampBrightness = 100;
           mirrorState = false;
           switch(initializing)
           {
@@ -140,12 +139,12 @@ void loop()
             break;
 
             case 0: // read wheelPot
+              lampBrightness = 100;
               ledBlue();
-              wheelRot = readWheelRot() - wheelCal;         // wheel position with calibration 
-              lampPos = -(wheelRot/wheelRotMid) * 90.0;      // [-90:90] lamp position from forward 
-              float sensitivity = 1.25;
-              lampPos = lampPos * sensitivity;
-              targetX = lampPos + degMid;                  // abosolute positioning from 90
+              wheelRot = readWheelRot() - wheelCal;           // wheel position with calibration 
+              lampPos = -(wheelRot/wheelRotMid) * 90.0;       // [-90:90] lamp position from forward 
+              lampPos = lampPos * lampPosSensitivity;         // multiplier
+              targetX = lampPos + degMid;                     // abosolute positioning from 90
               targetY = degMid;
             break;
           }

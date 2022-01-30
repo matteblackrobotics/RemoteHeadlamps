@@ -3,6 +3,7 @@
 // /dev/cu.usbserial-14320
 // explore public and private variabales
 // explore functions
+// get and set functions
 
 // make timers for button presses and transmission
 
